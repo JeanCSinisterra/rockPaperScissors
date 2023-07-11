@@ -1,15 +1,30 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Rock Paper or Scissors</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="">
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/styles.css"/>
   </head>
   <body>
-   
+    <div id="container">
+      <div id="displays">
+        <div id="score"></div>
+        <div id="player-score"></div>
+        <div id="computer-score"></div>
+        <div id="winner"></div>
+      </div>
+      <div id="buttonsContainer">
+        <button data-selection="rock">Rock</button>
+      <button data-selection="paper">Paper</button>
+      <button data-selection="scissors">Scissors</button>
+      </div>
+      <div id="restartContainer">
+        <button id="restart-game">Restart</button>
+      </div>
+    </div>
     
     <script src="script.js" async defer></script>
   </body>
