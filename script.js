@@ -1,6 +1,35 @@
 // This is a Game created to play against the computer.
 // Is a Simple Rock, Paper or Scissors game.
 
+// Initialize the Score
+let playerScore = 0;
+let computerScore = 0;
+let gameWinner = "";
+
+// Function to play a round
+function playRound(playerSelection, computerSelection) {
+    if (playerSelection === computerSelection) {
+        gameWinner =  "It\'s a Tie!"
+    }
+    if (
+        (playerSelection === 'ROCK' && computerSelection === 'SCISSORS') ||
+        (playerSelection === 'SCISSORS' && computerSelection === 'PAPER') ||
+        (playerSelection === 'PAPER' && computerSelection === 'ROCK')
+    ) {
+        playerScore++
+        gameWinner = 'player'
+    }
+    if (
+        (computerSelection === 'ROCK' && playerSelection === 'SCISSORS') ||
+        (computerSelection === 'SCISSORS' && playerSelection === 'PAPER') ||
+        (computerSelection === 'PAPER' && playerSelection === 'ROCK')
+    ) {
+        computerScore++
+        gameWinner = 'computer'
+    }
+    updateScoreMessage(gameWinner, playerSelection, computerSelection)
+}
+
 // Function to get Computer's Choice
 const getComputerChoice = () => {
     const choices = ["rock", "paper", "scissors"]
@@ -8,40 +37,8 @@ const getComputerChoice = () => {
     return choices[randomNumber]
 }
 
-// Initialize the Score
-let playerScore = 0;
-let computerScore = 0;
-
-// Function to play a round
-function playRound(playerSelection, computerSelection) {
-    
-    // Make Player Selection case-insensitive
-    playerSelection = playerSelection.toLowerCase();
-    if (!['rock', 'paper', 'scissors'].includes(playerSelection)) {
-        throw new Error('Invalid input for playerSelection');
-    }
-
-    let result;
-
-    // Check the outcome of the round & update scores accordingly
-    if (playerSelection === computerSelection) {
-        result =  "It's a Tie!";
-    } else if (
-        (playerSelection === "rock" && computerSelection === "scissors") ||
-        (playerSelection === "paper" && computerSelection === "rock") ||
-        (playerSelection === "scissors" && computerSelection === "paper")) 
-    {
-        result = "You Win!";
-        playerScore++;
-    } else {
-        result = "You Lose!";
-        computerScore++;
-    }
-    // Update the Score Display
-    updateScore();
-
-    // Display the Result
-    displayResult(result);
+function isGameOver() {
+    return playerScore === 5 || computerScore === 5
 }
 
 // Function to update the Score display
