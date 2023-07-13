@@ -27,7 +27,7 @@ function playRound(playerSelection, computerSelection) {
         computerScore++
         gameWinner = 'computer'
     }
-    updateScoreMessage(gameWinner, playerSelection, computerSelection)
+    updateScore(gameWinner, playerSelection, computerSelection)
 }
 
 // Function to get Computer's Choice
@@ -38,7 +38,7 @@ const getComputerChoice = () => {
 }
 
 function isGameOver() {
-    return playerScore === 5 || computerScore === 5
+    return playerScore === 0 || computerScore === 0
 }
 
 // Function to update the Score display
@@ -58,10 +58,10 @@ function updateScore() {
 }
 
 // Function to Display the Result
-function displayResult(result) {
-    const displayResult = document.querySelector("#score");
-    displayResult.textContent = result;
-}
+function displayResult(gameWinner) {
+    const result = document.querySelector("result");
+    result.textContent = gameWinner;
+} 
 
 // Function to announce the Winner
 function announceWinner(winner){
@@ -75,13 +75,13 @@ function restartGame() {
     computerScore = 0;
     // Update the Score Display
     updateScore();
-    // Clear the Result Display
-    clearResult();
-    // Clear the Winner Display
-    clearWinner();
+    // // Clear the Result Display
+    // clearResult();
+    // // Clear the Winner Display
+    // clearWinner();
 }
 // Event listener for the Restart Button
-const restartButton = document.querySelector("#restart-game");
+const restartButton = document.querySelector("#restart-button");
 restartButton.addEventListener("click", restartGame);
 
 // Event listener for the Buttons
@@ -93,15 +93,6 @@ buttons.forEach((button) => {
         playRound(playerSelection, computerSelection);
     })
 })
-
-// // Function to play the Game
-// function game() {
-//     for (let i = 0; i < 5; i++) {
-//         const playerSelection = prompt('Enter your choice: rock, paper, or scissors');
-//         const computerSelection = getComputerChoice();
-//         console.log(playRound(playerSelection, computerSelection));
-//     }
-// }
 
 // Testing the function 
 console.log(playRound('rock', 'scissors')); // should log "You Win! Rock beats Scissors"
