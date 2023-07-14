@@ -8,8 +8,9 @@ let gameWinner = "";
 
 // Function to play a round
 function playRound(playerSelection, computerSelection) {
+    let gameWinner;
     if (playerSelection === computerSelection) {
-        gameWinner =  "It\'s a Tie!"
+        gameWinner = "It\'s a Tie!"
     }
     if (
         (playerSelection === 'ROCK' && computerSelection === 'SCISSORS') ||
@@ -27,24 +28,26 @@ function playRound(playerSelection, computerSelection) {
         computerScore++
         gameWinner = 'computer'
     }
-    updateScore(gameWinner, playerSelection, computerSelection)
+    updateScore(gameWinner, playerSelection, computerSelection);
+    return gameWinner;
 }
 
 // Function to get Computer's Choice
 const getComputerChoice = () => {
     const choices = ["rock", "paper", "scissors"]
-    const randomNumber = Math.floor(Math.random() * 3)
+    const randomNumber = Math.floor(Math.random() * choices.length)
     return choices[randomNumber]
 }
 
-function isGameOver() {
-    return playerScore === 0 || computerScore === 0
+function isGameOver(winningScore) {
+    return playerScore === winningScore || computerScore === winningScore
 }
 
+
+const playerScoreDisplay = document.getElementById("player-score");
+const computerScoreDisplay = document.getElementById("computer-score");
 // Function to update the Score display
-function updateScore() {
-    const playerScoreDisplay = document.querySelector("#player-score");
-    const computerScoreDisplay = document.querySelector("#computer-score");
+function updateScore(playerScore, computerScore) {
     playerScoreDisplay.textContent = `Player: ${playerScore}`;
     computerScoreDisplay.textContent = `Computer: ${computerScore}`;
 
@@ -59,14 +62,14 @@ function updateScore() {
 
 // Function to Display the Result
 function displayResult(gameWinner) {
-    const result = document.querySelector("result");
+    const result = document.getElementById("result");
     result.textContent = gameWinner;
 } 
 
 // Function to announce the Winner
 function announceWinner(winner){
     const winnerDisplay = document.querySelector("#winner");
-    winnerDisplay.textContent = `The Winner is ${winner}!`;
+    winnerDisplay.textContent = `The Winner is ${winner ? winner : 'unknown'}!`;
 }
 
 // Function to Restarts the Game
@@ -74,12 +77,10 @@ function restartGame() {
     playerScore = 0;
     computerScore = 0;
     // Update the Score Display
-    updateScore();
-    // // Clear the Result Display
-    // clearResult();
-    // // Clear the Winner Display
-    // clearWinner();
+    updateScore(playerScore, computerScore);
+    console.log("Game restarted Successfully");
 }
+
 // Event listener for the Restart Button
 const restartButton = document.querySelector("#restart-button");
 restartButton.addEventListener("click", restartGame);
@@ -93,9 +94,3 @@ buttons.forEach((button) => {
         playRound(playerSelection, computerSelection);
     })
 })
-
-// Testing the function 
-console.log(playRound('rock', 'scissors')); // should log "You Win! Rock beats Scissors"
-console.log(playRound('ROCK', 'paper')); // should log "You Lose! Paper beats Rock"
-console.log(playRound('paper', 'paper')); // should log "It's a tie!"
-console.log(playRound('rock', 'fire')); // should log "Invalid player selection. Please choose 'rock', 'paper', or 'scissors'."
