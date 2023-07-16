@@ -2,6 +2,8 @@
 // It's a simple rock, paper, or scissors game.
 
 // Set up variables to store the player/computer's score & the game result.
+let playerScore = 0;
+let computerScore = 0;
 let playerSelection;
 let roundWinner = "";
 
@@ -19,7 +21,7 @@ function playRound(playerSelection, computerSelection) {
         roundWinner = 'computer';
     }
 
-    updateScore(roundWinner, playerSelection, computerSelection);
+    updateScoreMessage(roundWinner, playerSelection, computerSelection);
 }
 
 // Function to get Computer's Choice
@@ -35,33 +37,57 @@ const getComputerChoice = () => {
     }
 };
 
-// Initialize computerSelection after getComputerChoice function definition
-let computerSelection = getComputerChoice();
-
-function isGameOver(winningScore) {
-    return playerSelection === winningScore || computerSelection === winningScore;
+function isGameOver() {
+    return playerScore === 5 || computerScore === 5;
 }
 
-const playerSelectionDisplay = document.getElementById("player-score");
-const computerSelectionDisplay = document.getElementById("computer-score");
-const playerSign = document.getElementById("playerSign");
-const computerSign = document.getElementById("computerSign");
+// Get the Buttons
+const rockBtn = document.querySelector("#rockBtn");
+rockBtn.addEventListener("click", () => handleClick("ROCK"));
 
-// Function to update the Score display
-function updateScore() {
-    if (roundWinner === 'player') {
-        scoreInfo.textContent = "You win !"
-    } else if (roundWinner === 'computer') {
-        scoreInfo.textContent = "You lose !"
-    } else if (roundWinner === 'Draw!') {
-        scoreInfo.textContent = "Draw!"
+const paperBtn = document.querySelector("#paperBtn");
+paperBtn.addEventListener("click", () => handleClick("PAPER"));
+
+const scissorsBtn = document.querySelector("#scissorsBtn");
+scissorsBtn.addEventListener("click", () => handleClick("SCISSORS"));
+
+const restartBtn = document.querySelector("#restartBtn");
+restartBtn.addEventListener("click", restartGame)
+
+
+// Function to handle the Clicks
+function handleClick(playerSelection) {
+    if (isGameOver()) {
+        return;
     }
 
-    playerSelectionDisplay.textContent = `Player: ${playerSelection}`;
-    computerSelectionDisplay.textContent = `Computer: ${computerSelection}`;
-
-    // Update player and computer signs based on their selections
+    const computerSelection = getComputerChoice();
+    playRound(playerSelection, computerSelection);
     updateChoices(playerSelection, computerSelection);
+    displayResult(roundWinner);
+
+    if (isGameOver()) {
+        setFinalMessage();
+    }
+}
+
+let scoreInfo = document.getElementById("scoreInfo");
+let scoreMessage = document.getElementById("scoreMessage");
+let scoreDisplay = document.getElementById("scoreDisplay");
+let playerScorePara = document.getElementById('playerScore')
+let computerScorePara = document.getElementById('computerScore')
+let playerSign = document.getElementById("playerSign");
+let computerSign = document.getElementById("computerSign");
+let computerSelection = getComputerChoice();
+
+playRound(playerSelection, computerSelection);
+updateChoices(playerSelection, computerSelection);
+updateScore()
+
+if (isGameOver()) {
+    scoreDisplay.style.display = "none";
+    scoreInfo.textContent = "Game Over!";
+    scoreMessage.textContent = "Press Restart to play again!";
 }
 
 function updateChoices(playerSelection, computerSelection) {
@@ -92,43 +118,61 @@ function updateChoices(playerSelection, computerSelection) {
     }
 }
 
-// // Function to Display the Result
-function displayResult(roundWinner) {
-    const result = document.getElementById("scoreMessage");
-    result.textContent = roundWinner;
-}
-
-// Function to Restarts the Game
-function restartGame() {
-    playerSelection = 0;
-    computerSelection = 0;
-    // Update the Score Display
-    updateScore(playerSelection, computerSelection);
-    console.log("Game restarted Successfully");
-}
-
-// Get the Buttons
-const rockBtn = document.querySelector("#rockBtn");
-rockBtn.addEventListener("click", () => handleClick("ROCK"));
-
-const paperBtn = document.querySelector("#paperBtn")
-.addEventListener("click", () => handleClick("PAPER"));
-
-const scissorsBtn = document.querySelector("#scissorsBtn")
-.addEventListener("click", () => handleClick("SCISSORS"));
-
-const restartBtn = document.querySelector("#restartBtn")
-.addEventListener("click", restartGame);
-
-const scoreInfo = document.querySelector("#scoreInfo");
-
-// Function to handle the Clicks
-function handleClick(playerSelection) {
-    if (isGameOver(5)) {
-        return;
+// Function to update the Score display
+function updateScore() {
+    if (roundWinner === 'tie') {
+        scoreInfo.textContent = "It's a tie!"
+    } else if (roundWinner === 'player') {
+        scoreInfo.textContent = 'You won!'
+    } else if (roundWinner === 'computer') {
+        scoreInfo.textContent = 'You lost!'
     }
-    const computerSelection = getComputerChoice();
-    playRound(playerSelection, computerSelection);  // removed parentheses after computerSelection
-    displayResult(roundWinner);
+
+    playerScorePara.textContent = `Player: ${playerSelection}`;
+    computerScorePara.textContent = `Computer: ${computerSelection}`;
+}
+function updateScoreMessage(winner, playerSelection, computerSelection) {
+    if (winner === 'player') {
+        scoreMessage.textContent = `${capitalizeFirstLetter(
+            playerSelection
+        )} beats ${computerSelection.toLowerCase()}`
+        return
+    }
+    if (winner === 'computer') {
+        scoreMessage.textContent = `${capitalizeFirstLetter(
+            playerSelection
+        )} is beaten by ${computerSelection.toLowerCase()}`
+        return
+    }
+
+    scoreMessage.textContent = `${capitalizeFirstLetter(
+        playerSelection
+    )} ties with ${computerSelection.toLowerCase()}`
 }
 
+    // // Function to Display the Result
+    function displayResult(roundWinner) {
+        const result = document.getElementById("scoreMessage");
+        result.textContent = roundWinner;
+    }
+
+    // Function to Restarts the Game
+    function restartGame() {
+        playerScore = 0;
+        computerScore = 0;
+        // Update the Score Display
+        scoreInfo.textContent = "Choose your weapon";
+        scoreMessage.textContent = "First to score 5 points wins the game";
+        playerScorePara.textContent = 'Player: 0'
+        computerScorePara.textContent = 'Computer: 0'
+        playerSign.textContent = '❔'
+        computerSign.textContent = '❔'
+        updateScore(playerSelection, computerSelection);
+        console.log("Game restarted Successfully");
+    }
+
+function setFinalMessage() {
+    return playerScore > computerScore
+        ? (endgameMsg.textContent = 'You won!')
+        : (endgameMsg.textContent = 'You lost...')
+}
