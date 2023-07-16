@@ -1,96 +1,134 @@
 // This is a Game created to play against the computer.
-// Is a Simple Rock, Paper or Scissors game.
+// It's a simple rock, paper, or scissors game.
 
-// Initialize the Score
-let playerScore = 0;
-let computerScore = 0;
-let gameWinner = "";
+// Set up variables to store the player/computer's score & the game result.
+let playerSelection;
+let roundWinner = "";
 
 // Function to play a round
 function playRound(playerSelection, computerSelection) {
-    let gameWinner;
     if (playerSelection === computerSelection) {
-        gameWinner = "It\'s a Tie!"
-    }
-    if (
+        roundWinner = "Draw!";
+    } else if (
         (playerSelection === 'ROCK' && computerSelection === 'SCISSORS') ||
         (playerSelection === 'SCISSORS' && computerSelection === 'PAPER') ||
         (playerSelection === 'PAPER' && computerSelection === 'ROCK')
     ) {
-        playerScore++
-        gameWinner = 'player'
+        roundWinner = 'player';
+    } else {
+        roundWinner = 'computer';
     }
-    if (
-        (computerSelection === 'ROCK' && playerSelection === 'SCISSORS') ||
-        (computerSelection === 'SCISSORS' && playerSelection === 'PAPER') ||
-        (computerSelection === 'PAPER' && playerSelection === 'ROCK')
-    ) {
-        computerScore++
-        gameWinner = 'computer'
-    }
-    updateScore(gameWinner, playerSelection, computerSelection);
-    return gameWinner;
+
+    updateScore(roundWinner, playerSelection, computerSelection);
 }
 
 // Function to get Computer's Choice
 const getComputerChoice = () => {
-    const choices = ["rock", "paper", "scissors"]
-    const randomNumber = Math.floor(Math.random() * choices.length)
-    return choices[randomNumber]
-}
+    let randomNumber = Math.floor(Math.random() * 3);
+    switch (randomNumber) {
+        case 0:
+            return "ROCK";
+        case 1:
+            return "PAPER";
+        case 2:
+            return "SCISSORS";
+    }
+};
+
+// Initialize computerSelection after getComputerChoice function definition
+let computerSelection = getComputerChoice();
 
 function isGameOver(winningScore) {
-    return playerScore === winningScore || computerScore === winningScore
+    return playerSelection === winningScore || computerSelection === winningScore;
 }
 
+const playerSelectionDisplay = document.getElementById("player-score");
+const computerSelectionDisplay = document.getElementById("computer-score");
+const playerSign = document.getElementById("playerSign");
+const computerSign = document.getElementById("computerSign");
 
-const playerScoreDisplay = document.getElementById("player-score");
-const computerScoreDisplay = document.getElementById("computer-score");
 // Function to update the Score display
-function updateScore(playerScore, computerScore) {
-    playerScoreDisplay.textContent = `Player: ${playerScore}`;
-    computerScoreDisplay.textContent = `Computer: ${computerScore}`;
-
-    // Check if the Player has reached a score of 5 to Win the Game
-    if (playerScore === 5) {
-        displayResult.textContent = "Congratulations, You Beat Up a Machine! John Connor is proud";
+function updateScore() {
+    if (roundWinner === 'player') {
+        scoreInfo.textContent = "You win !"
+    } else if (roundWinner === 'computer') {
+        scoreInfo.textContent = "You lose !"
+    } else if (roundWinner === 'Draw!') {
+        scoreInfo.textContent = "Draw!"
     }
-    else if (computerScore === 5) {
-        displayResult.textContent = "Look at you, You Lose against a Machine, Pathetic!";
+
+    playerSelectionDisplay.textContent = `Player: ${playerSelection}`;
+    computerSelectionDisplay.textContent = `Computer: ${computerSelection}`;
+
+    // Update player and computer signs based on their selections
+    updateChoices(playerSelection, computerSelection);
+}
+
+function updateChoices(playerSelection, computerSelection) {
+    // Update player sign
+    switch (playerSelection) {
+        case "ROCK":
+            playerSign.textContent = "🪨";
+            break;
+        case "PAPER":
+            playerSign.textContent = "📃";
+            break;
+        case "SCISSORS":
+            playerSign.textContent = "✌";
+            break;
+    }
+
+    // Update computer sign
+    switch (computerSelection) {
+        case "ROCK":
+            computerSign.textContent = "🪨";
+            break;
+        case "PAPER":
+            computerSign.textContent = "📃";
+            break;
+        case "SCISSORS":
+            computerSign.textContent = "✂️";
+            break;
     }
 }
 
-// Function to Display the Result
-function displayResult(gameWinner) {
-    const result = document.getElementById("result");
-    result.textContent = gameWinner;
-} 
-
-// Function to announce the Winner
-function announceWinner(winner){
-    const winnerDisplay = document.querySelector("#winner");
-    winnerDisplay.textContent = `The Winner is ${winner ? winner : 'unknown'}!`;
+// // Function to Display the Result
+function displayResult(roundWinner) {
+    const result = document.getElementById("scoreMessage");
+    result.textContent = roundWinner;
 }
 
 // Function to Restarts the Game
 function restartGame() {
-    playerScore = 0;
-    computerScore = 0;
+    playerSelection = 0;
+    computerSelection = 0;
     // Update the Score Display
-    updateScore(playerScore, computerScore);
+    updateScore(playerSelection, computerSelection);
     console.log("Game restarted Successfully");
 }
 
-// Event listener for the Restart Button
-const restartButton = document.querySelector("#restart-button");
-restartButton.addEventListener("click", restartGame);
+// Get the Buttons
+const rockBtn = document.querySelector("#rockBtn");
+rockBtn.addEventListener("click", () => handleClick("ROCK"));
 
-// Event listener for the Buttons
-const buttons = document.querySelectorAll("button");
-buttons.forEach((button) => {
-    button.addEventListener("click", (e) => {
-        const playerSelection = e.target.dataset.selection;
-        const computerSelection = getComputerChoice();
-        playRound(playerSelection, computerSelection);
-    })
-})
+const paperBtn = document.querySelector("#paperBtn")
+.addEventListener("click", () => handleClick("PAPER"));
+
+const scissorsBtn = document.querySelector("#scissorsBtn")
+.addEventListener("click", () => handleClick("SCISSORS"));
+
+const restartBtn = document.querySelector("#restartBtn")
+.addEventListener("click", restartGame);
+
+const scoreInfo = document.querySelector("#scoreInfo");
+
+// Function to handle the Clicks
+function handleClick(playerSelection) {
+    if (isGameOver(5)) {
+        return;
+    }
+    const computerSelection = getComputerChoice();
+    playRound(playerSelection, computerSelection);  // removed parentheses after computerSelection
+    displayResult(roundWinner);
+}
+

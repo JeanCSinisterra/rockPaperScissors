@@ -5,7 +5,9 @@
     --secondary-dark-hover: #4a4f57;
     --secondary-dark-active: #5b5f68;
     --header: #111720;
-    --primary-yellow: #fac650;
+    --primary-yellow: #f0b222;
+    --primary-purple: #2e49d2;
+
 }
 
 *,
@@ -33,7 +35,7 @@ body {
 
 button {
     border: none;
-    color: black;
+    color: var(--primary-dark);
     font-family: inherit;
     font-size: inherit;
     cursor: pointer;
@@ -46,12 +48,12 @@ button {
     display: flex;
     justify-content: center;
     padding: 40px 0px;
-    background-color: var(--header);
+    background-color: var(--primary-purple);
 }
 
 .title {
     font-size: 32px;
-    color: var(--primary-yellow);
+    color: var(--primary-light);
     font-family: 'Press Start 2P', cursive;
 }
 
