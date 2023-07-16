@@ -156,8 +156,23 @@ button {
     font-weight: bold;
 }
 
-.restart-game {
+.btn-restart {
     padding: 10px 20px;
     margin-top: 25px;
     margin-bottom: 15px;
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 0.6;
+}
+
+.overlay.active {
+    display: block;
 }

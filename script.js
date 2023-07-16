@@ -10,17 +10,23 @@ let roundWinner = "";
 // Function to play a round
 function playRound(playerSelection, computerSelection) {
     if (playerSelection === computerSelection) {
-        roundWinner = "Draw!";
-    } else if (
+        roundWinner = 'tie'
+    }
+    if (
         (playerSelection === 'ROCK' && computerSelection === 'SCISSORS') ||
         (playerSelection === 'SCISSORS' && computerSelection === 'PAPER') ||
         (playerSelection === 'PAPER' && computerSelection === 'ROCK')
     ) {
-        playerScore++;
-        roundWinner = 'player';
-    } else {
+        playerScore++
+        roundWinner = 'player'
+    }
+    if (
+        (computerSelection === 'ROCK' && playerSelection === 'SCISSORS') ||
+        (computerSelection === 'SCISSORS' && playerSelection === 'PAPER') ||
+        (computerSelection === 'PAPER' && playerSelection === 'ROCK')
+    ) {
         computerScore++
-        roundWinner = 'computer';
+        roundWinner = 'computer'
     }
 
     updateScore(roundWinner, playerSelection, computerSelection);
@@ -133,24 +139,6 @@ function updateScore() {
     playerScorePara.textContent = `Player: ${playerScore}`;
     computerScorePara.textContent = `Computer: ${computerScore}`;
 }
-// function updateScoreMessage(winner, playerSelection, computerSelection) {
-//     if (winner === 'player') {
-//         scoreMessage.textContent = `${capitalizeFirstLetter(
-//             playerSelection
-//         )} beats ${computerSelection.toLowerCase()}`
-//         return
-//     }
-//     if (winner === 'computer') {
-//         scoreMessage.textContent = `${capitalizeFirstLetter(
-//             playerSelection
-//         )} is beaten by ${computerSelection.toLowerCase()}`
-//         return
-//     }
-
-//     scoreMessage.textContent = `${capitalizeFirstLetter(
-//         playerSelection
-//     )} ties with ${computerSelection.toLowerCase()}`
-// }
 
     // // Function to Display the Result
     function displayResult(roundWinner) {
@@ -172,6 +160,16 @@ function updateScore() {
         updateScore(playerSelection, computerSelection);
         console.log("Game restarted Successfully");
     }
+
+function openEndgameModal() {
+    openEndgameModal.classList.add('active')
+    openEndgameModal.classList.add('active')
+}
+
+function closeEndgameModal() {
+    closeEndgameModal.classList.remove('active')
+    closeEndgameModal.classList.remove('active')
+}
 
 function setFinalMessage() {
     return playerScore > computerScore
