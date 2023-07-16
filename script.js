@@ -16,12 +16,14 @@ function playRound(playerSelection, computerSelection) {
         (playerSelection === 'SCISSORS' && computerSelection === 'PAPER') ||
         (playerSelection === 'PAPER' && computerSelection === 'ROCK')
     ) {
+        playerScore++;
         roundWinner = 'player';
     } else {
+        computerScore++
         roundWinner = 'computer';
     }
 
-    updateScoreMessage(roundWinner, playerSelection, computerSelection);
+    updateScore(roundWinner, playerSelection, computerSelection);
 }
 
 // Function to get Computer's Choice
@@ -100,7 +102,7 @@ function updateChoices(playerSelection, computerSelection) {
             playerSign.textContent = "📃";
             break;
         case "SCISSORS":
-            playerSign.textContent = "✌";
+            playerSign.textContent = "✂️";
             break;
     }
 
@@ -128,27 +130,27 @@ function updateScore() {
         scoreInfo.textContent = 'You lost!'
     }
 
-    playerScorePara.textContent = `Player: ${playerSelection}`;
-    computerScorePara.textContent = `Computer: ${computerSelection}`;
+    playerScorePara.textContent = `Player: ${playerScore}`;
+    computerScorePara.textContent = `Computer: ${computerScore}`;
 }
-function updateScoreMessage(winner, playerSelection, computerSelection) {
-    if (winner === 'player') {
-        scoreMessage.textContent = `${capitalizeFirstLetter(
-            playerSelection
-        )} beats ${computerSelection.toLowerCase()}`
-        return
-    }
-    if (winner === 'computer') {
-        scoreMessage.textContent = `${capitalizeFirstLetter(
-            playerSelection
-        )} is beaten by ${computerSelection.toLowerCase()}`
-        return
-    }
+// function updateScoreMessage(winner, playerSelection, computerSelection) {
+//     if (winner === 'player') {
+//         scoreMessage.textContent = `${capitalizeFirstLetter(
+//             playerSelection
+//         )} beats ${computerSelection.toLowerCase()}`
+//         return
+//     }
+//     if (winner === 'computer') {
+//         scoreMessage.textContent = `${capitalizeFirstLetter(
+//             playerSelection
+//         )} is beaten by ${computerSelection.toLowerCase()}`
+//         return
+//     }
 
-    scoreMessage.textContent = `${capitalizeFirstLetter(
-        playerSelection
-    )} ties with ${computerSelection.toLowerCase()}`
-}
+//     scoreMessage.textContent = `${capitalizeFirstLetter(
+//         playerSelection
+//     )} ties with ${computerSelection.toLowerCase()}`
+// }
 
     // // Function to Display the Result
     function displayResult(roundWinner) {
