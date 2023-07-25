@@ -79,6 +79,7 @@ function handleClick(playerSelection) {
     }
 }
 
+//Get the elements through the Query Selectors
 let scoreInfo = document.getElementById("scoreInfo");
 let scoreMessage = document.getElementById("scoreMessage");
 let scoreDisplay = document.getElementById("scoreDisplay");
